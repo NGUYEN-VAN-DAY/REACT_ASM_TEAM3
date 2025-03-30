@@ -23,44 +23,64 @@ const Cart = () => {
   };
 
   return (
-    <div className="container mt-4">
-      <h2 className="mb-4">Giỏ Hàng</h2>
+
+    <div className="main">
+      <div className="page-title accent-background ">
+        <div className="container d-lg-flex justify-content-between align-items-center">
+          <h1 className="mb-2 mb-lg-0">Giỏ hàng</h1>
+          <nav className="breadcrumbs">
+            <ol>
+              <li><a href="/">Trang chủ</a></li>
+              <li className="current">Giỏ hàng</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
       {product.images.length === 0 ? (
         <p className="text-muted">Giỏ hàng của bạn đang trống.</p>
       ) : (
-        <table className="table table-bordered text-center">
-          <thead className="table-light">
-            <tr>
-              <th>#</th>
-              <th>Ảnh</th>
-              <th>Tên sản phẩm</th>
-              <th>Giá</th>
-              <th>Khuyến mãi</th>
-              <th>Mô tả</th>
-            </tr>
-          </thead>
-          <tbody>
-            {product.images.map((image, index) => (
-              <tr key={index}>
-                <td>{index + 1}</td>
-                <td>
-                  <img src={image} alt={product.name} width="80" height="80" className="rounded" />
-                </td>
-                <td>{product.name}</td>
-                <td>{product.price.toLocaleString()} VNĐ</td>
-                <td>-{product.salePrice.toLocaleString()} VNĐ</td>
-                <td>{product.description}</td>
+        <section className="col-10 mx-auto">
+          <table className="table table-bordered text-center ">
+            <thead className="table-light">
+              <tr>
+                <th>#</th>
+                <th>Ảnh</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá</th>
+                <th>Khuyến mãi</th>
+                <th>Mô tả</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {product.images.map((image, index) => (
+                <tr key={index}>
+                  <td>{index + 1}</td>
+                  <td>
+                    <img src={image} alt={product.name} width="80" height="80" className="rounded" />
+                  </td>
+                  <td>{product.name}</td>
+                  <td>{product.price.toLocaleString()} VNĐ</td>
+                  <td>-{product.salePrice.toLocaleString()} VNĐ</td>
+                  <td>{product.description}</td>
+                </tr>
+
+              ))}
+              <tr>
+
+              </tr>
+            </tbody>
+          </table>
+          <div className="text-left">
+            <Link to="/shop" className="btn btn-outline-success">Tiếp tục mua sắm</Link>
+            {product.images.length > 0 && (
+              <button className="btn btn-success ml-2">Thanh toán</button>
+            )}
+          </div>
+
+
+        </section>
       )}
-      <div className="d-flex justify-content-between mt-4">
-        <Link to="/shop" className="btn btn-outline-primary">Tiếp tục mua sắm</Link>
-        {product.images.length > 0 && (
-          <button className="btn btn-success">Thanh toán</button>
-        )}
-      </div>
+
     </div>
   );
 };
