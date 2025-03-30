@@ -1,70 +1,58 @@
-import logo from "./logo.svg";
-import { BrowserRouter as Router, Route, Routes, Link } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, useLocation } from "react-router-dom";
+import AdminLayout from "./pages/admin/AdminLayout";
+import Dashboard from "./pages/admin/Dashboard";
+import Addproduct from "./pages/admin/product/create";
+import ListProduct from "./pages/admin/product";
+import Login from "./pages/admin/Login";
+import NotFound from "./pages/NotFound";
+import Header from "./components/admin/Header";
+import Footer from "./components/admin/Footer";
+import EditProduct from "./pages/admin/product/edit";
+import ListCategory from "./pages/admin/category";
+import AddCate from "./pages/admin/category/create";
+import EditCate from "./pages/admin/category/edit";
 
-import "./App.css";
+const Layout = ({ children }) => {
+  const location = useLocation();
+  const isRootPath = location.pathname === "/"; 
 
-
-import Header from "./components/client/layouts/Header"
-import Footer from "./components/client/layouts/Footer";
-import Products from "./components/client/Products";
-import Home from "./components/client/Home";
-import ProductDetail from "./components/client/Productdetail";
-import Introduction from "./components/client/Introduction"
-import Maintenance from "./components/client/Maintenance";
-import ContactPage from "./components/client/Contact";
-import Login from "./components/client/Login";
-import ProductCard from "./components/client/Card";
-import Register from "./components/client/Register";
-
-
-const App = () => {
-
-  // localhost:3000 => Home
-  // localhost:3000/login => Login
-  const user = 'nguyễn văn đây';
   return (
-
-
-    <Router>
-      <Header user={user} />
-      <Routes>
-        <Route path="/" element={<h1>Trang chủ</h1>} />
-        <Route path="/home" element={<Home/>} />
-        <Route path="/about" element={<Introduction/>} />
-        <Route path="/shop" element={<Products/> } />
-        <Route path="/productdetail" element={<ProductDetail/> } />
-        <Route path="/maintenance" element={<Maintenance/>} />
-        <Route path="/blog" element={<h1>Sự kiện</h1>} />
-        <Route path="/contact" element={<ContactPage/>} />
-        <Route path="/card" element={<ProductCard/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/register" element={<Register/>} />
-      </Routes>
-      <Footer />
-
-    </Router>
-    // <Routes>
-    //   <Route path="/" >
-    //     {/* Khi người dùng mở vào url: localhost:3000/** */}
-    //     {/* => MainUser */}
-    //     {/* <Route index element={<Home />} /> */}
-    //     {/* Route con không có dấu / phía trước */}
-    //     {/* <Route path="login" element={<Login />} />
-    //     <Route path="register" element={<Register />} />
-    //     <Route path="register_hook" element={<Register_hook />} /> */}
-    //   </Route>
-
-    //   {/* <Route path="/admin" element={<MainAdmin/>}> */}
-    //   {/* <Route index element={<Dashboard/>}/> */}
-    //   {/* Route con không có dấu / phía trước */}
-    //   {/* <Route path="products"  element={<Products/>}/> */}
-    //   {/* </Route> */}
-
-    //   {/* <Route path="/" element={<Home/>}/>
-    //   <Route path="/login" element={<Login/>}/> */}
-    // </Routes>
-
+    <div className="flex flex-col min-h-screen">
+      {!isRootPath && <Header />} 
+      <main className="flex-grow">{children}</main>
+      {!isRootPath && <Footer />} 
+    </div>
   );
 };
+
+function App() {
+  return (
+    <Router>
+      <Layout>
+        <Routes>
+          {/* Trang trống khi truy cập "/" */}
+          <Route path="/" element={<div></div>} />
+
+          {/* Các route trong admin */}
+          <Route path="/admin/*" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="login" element={<Login />} />
+            <Route path="products" element={<ListProduct />} />
+            <Route path="products/add" element={<Addproduct />} />
+            <Route path="products/edit/:id" element={<EditProduct />} />
+
+            {/* category */}
+            <Route path="categories" element={<ListCategory />} />
+            <Route path="categories/add" element={<AddCate />} />
+            <Route path="categories/edit/:id" element={<EditCate />} />
+          </Route>
+
+          {/* Trang không tìm thấy */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
+}
 
 export default App;
