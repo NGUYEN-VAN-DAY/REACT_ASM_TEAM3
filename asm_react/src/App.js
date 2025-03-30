@@ -8,6 +8,13 @@ import Header from "./components/client/layouts/Header"
 import Footer from "./components/client/layouts/Footer";
 import Products from "./components/client/Products";
 import Home from "./components/client/Home";
+import ProductDetail from "./components/client/Productdetail";
+import Introduction from "./components/client/Introduction"
+import Maintenance from "./components/client/Maintenance";
+import ContactPage from "./components/client/Contact";
+import Login from "./components/client/Login";
+
+
 const App = () => {
 
   // localhost:3000 => Home
@@ -21,11 +28,13 @@ const App = () => {
       <Routes>
         <Route path="/" element={<h1>Trang chủ</h1>} />
         <Route path="/home" element={<Home/>} />
-        <Route path="/about" element={<h1>Giới thiệu</h1>} />
+        <Route path="/about" element={<Introduction/>} />
         <Route path="/shop" element={<Products/> } />
-        <Route path="/maintenance" element={<h1>Bảo dưỡng</h1>} />
+        <Route path="/productdetail" element={<ProductDetail/> } />
+        <Route path="/maintenance" element={<Maintenance/>} />
         <Route path="/blog" element={<h1>Sự kiện</h1>} />
-        <Route path="/contact" element={<h1>Liên hệ</h1>} />
+        <Route path="/contact" element={<ContactPage/>} />
+        <Route path="/login" element={<Login/>} />
       </Routes>
       <Footer />
 
