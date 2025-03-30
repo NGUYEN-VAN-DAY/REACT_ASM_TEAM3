@@ -36,9 +36,9 @@ const ContactPage = () => {
             <textarea name="message" value={form.message} onChange={handleChange} className="form-control" required></textarea>
           </div>
           <button type="submit" className="btn btn-primary">Gửi</button>
-          
+
         </form>
-        
+
       )}
     </div>
   );
