@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 // Dữ liệu sản phẩm giả lập
 const mockProducts = [
@@ -15,6 +16,7 @@ function Products() {
   const [products, setProducts] = useState(mockProducts);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('');
+  const navigate = useNavigate();
 
   // Sắp xếp sản phẩm theo giá
   const sortedProducts = [...products].sort((a, b) => {
@@ -83,10 +85,12 @@ function Products() {
           <div className="row gy-4">
             {filteredProducts.map((product) => (
               <div key={product.id} className="col-lg-4 col-md-6 portfolio-item">
-                <img
-                  src={`${product.images}`}
-                  className="img-fluid"
+              <img
+                  src={product.images}
                   alt={product.title}
+                  className="img-fluid"
+                  onClick={() => navigate(`/productdetail`)}
+                  style={{ cursor: "pointer" }}
                 />
                 <h3>{product.price} vnđ</h3>
                 <div className="portfolio-info">

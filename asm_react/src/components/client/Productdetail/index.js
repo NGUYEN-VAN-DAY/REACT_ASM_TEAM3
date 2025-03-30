@@ -3,41 +3,41 @@ import { useState } from "react";
 const ProductDetail = () => {
   const product = {
     id: 1,
-    name: "Cà phê sữa đá",
-    price: "35.000 VNĐ",
-    salePrice: "30.000 VNĐ",
-    description: "Một ly cà phê sữa đá thơm ngon đậm đà.",
+    name: "Xe máy honda",
+    price: "30.000.000 VNĐ",
+    salePrice: "300.000 VNĐ",
+    description: "Xe máy Honda Xe máy Honda Xe máy Honda.",
     details: {
       type: "Đồ uống",
       brand: "Highlands Coffee",
       origin: "Việt Nam",
     },
     images: [
-      "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
-      "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
-      "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
-      "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
+      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
+      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
+      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
+      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
     ],
   };
 
   const relatedProducts = [
     {
       id: 2,
-      name: "Cà phê đen",
-      price: "30.000 VNĐ",
-      image: "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
+      name: "Xe máy Yamaha",
+      price: "30.000.000 VNĐ",
+      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
     },
     {
       id: 3,
-      name: "Cà phê sữa nóng",
-      price: "32.000 VNĐ",
-      image: "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
+      name: "Xe máy Suzuki",
+      price: "32.000.000 VNĐ",
+      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
     },
     {
       id: 4,
-      name: "Espresso",
-      price: "40.000 VNĐ",
-      image: "https://thuytinhgiare.com/wp-content/uploads/2023/07/hinh-anh-ly-cafe-phin.jpg",
+      name: "Xe máy Kawasaki",
+      price: "40.000.000 VNĐ",
+      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
     },
   ];
 
@@ -107,7 +107,9 @@ const ProductDetail = () => {
           ))}
         </div>
       </div>
+      <br></br>
     </div>
+    
   );
 };
 

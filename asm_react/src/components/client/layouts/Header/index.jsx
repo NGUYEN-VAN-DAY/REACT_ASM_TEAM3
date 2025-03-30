@@ -76,13 +76,11 @@ const Header = ({ user }) => {
               ) : (
                 <>
                   <h3>Chào mừng bạn đến với website!</h3>
-                  <Link to="/login" className="btn btn-primary text-white">
-                    Đăng nhập
-                  </Link>
+                  
                 </>
               )}
-              <Link to="/admin" className="btn btn-success text-white">
-                Vào quản trị
+              <Link to="/login" className="btn btn-success text-white">
+                Đăng nhập
               </Link>
             </div>
           </div>
