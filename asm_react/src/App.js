@@ -13,6 +13,8 @@ import Introduction from "./components/client/Introduction"
 import Maintenance from "./components/client/Maintenance";
 import ContactPage from "./components/client/Contact";
 import Login from "./components/client/Login";
+import ProductCard from "./components/client/Card";
+import Register from "./components/client/Register";
 
 
 const App = () => {
@@ -34,7 +36,9 @@ const App = () => {
         <Route path="/maintenance" element={<Maintenance/>} />
         <Route path="/blog" element={<h1>Sự kiện</h1>} />
         <Route path="/contact" element={<ContactPage/>} />
+        <Route path="/card" element={<ProductCard/>} />
         <Route path="/login" element={<Login/>} />
+        <Route path="/register" element={<Register/>} />
       </Routes>
       <Footer />
 
