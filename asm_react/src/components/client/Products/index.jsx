@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 // Dữ liệu sản phẩm giả lập
 const mockProducts = [
   { id: 1, title: 'Xe máy Honda', price: 30000000, images: 'https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg' },
-  { id: 2, title: 'Xe máy Yamaha', price: 25000000, images: 'https://image.thanhnien.vn/Uploaded/bqthai/2022_12_30/yamaha-xs155r-thanhnien-102.jpg' },
+  { id: 2, title: 'Xe máy Yamaha', price: 25000000, images: 'https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg' },
   { id: 3, title: 'Xe máy Suzuki', price: 22000000, images: 'https://static.automotor.vn/w827/images/upload/thuongtth/10032019/suzuki-raider.jpg' },
   { id: 4, title: 'Xe máy Kawasaki', price: 35000000, images: 'https://cdn.24h.com.vn/upload/2-2020/images/2020-04-28/1588034095-500-top-15-moto-lung-danh-nhat-cua-ga-long-lo-xanh-kawasaki-ka1-1587999431-width660height510.jpg' },
   { id: 5, title: 'Xe máy BMW', price: 70000000, images: 'https://media.vov.vn/sites/default/files/styles/large/public/2023-05/91ebf210df2b0175583a.jpg' },

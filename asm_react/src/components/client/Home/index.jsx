@@ -29,7 +29,7 @@ const Home = () => {
           </p>
           <button
             className="btn btn-primary"
-            onClick={() => navigate("/product-detail/1")}
+            onClick={() => navigate("/productdetail")}
           >
             Xem Chi Tiết
           </button>
@@ -43,7 +43,7 @@ const Home = () => {
           <div className="col-md-4">
             <div className="card">
               <img
-                src="https://image.thanhnien.vn/Uploaded/bqthai/2022_12_30/yamaha-xs155r-thanhnien-102.jpg"
+                src="https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg"
                 className="card-img-top"
                 alt="Yamaha Exciter 155"
               />
@@ -54,7 +54,7 @@ const Home = () => {
                 </p>
                 <button
                   className="btn btn-success"
-                  onClick={() => navigate("/product-detail/2")}
+                  onClick={() => navigate("/productdetail")}
                 >
                   Xem Chi Tiết
                 </button>
@@ -75,7 +75,7 @@ const Home = () => {
                 </p>
                 <button
                   className="btn btn-success"
-                  onClick={() => navigate("/product-detail/3")}
+                  onClick={() => navigate("/productdetail")}
                 >
                   Xem Chi Tiết
                 </button>
@@ -97,7 +97,7 @@ const Home = () => {
                 </p>
                 <button
                   className="btn btn-success"
-                  onClick={() => navigate("/product-detail/4")}
+                  onClick={() => navigate("/product-detail")}
                 >
                   Xem Chi Tiết
                 </button>

@@ -41,6 +41,9 @@ const Header = ({ user }) => {
             <li>
               <Link to="/contact">Liên hệ</Link>
             </li>
+            <li>
+              <Link to="/card">Giỏ hàng</Link>
+            </li>
           </ul>
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
         </nav>
