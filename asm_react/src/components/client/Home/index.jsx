@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-<<<<<<< HEAD
 import Header from "../layouts/Header";
 import "./style.css";
 const Home = () => {
@@ -13,16 +12,10 @@ const Home = () => {
     { id: 2, logo: "https://media.loveitopcdn.com/3807/logo-yamaha-dongphucsongphu-010.jpg" },
     { id: 3, logo: "https://rubee.com.vn/wp-content/uploads/2021/05/Logo-suzuki.jpg" },
     { id: 4, logo: "https://vinadesign.vn/uploads/images/2023/06/logo-sym-vinadesign-03-10-21-08.jpg" },
-=======
-
-const Home = () => {
-  const navigate = useNavigate();
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
 
     
   ];
   return (
-<<<<<<< HEAD
     <div className="container">
       {/* Giới thiệu */}
       <div className="row mt-4 " id="slider-home">
@@ -112,47 +105,10 @@ const Home = () => {
       </div>
       <div className="mt-5 dichvu">
       <h2 className="text-center   mt-5 mb-5">Dịch Vụ Của Chúng Tôi</h2>
-=======
-    <div className="container mt-5">
-      <h1 className="text-center mb-4">Chào Mừng Đến Showroom Xe</h1>
-      <p className="text-center">
-        Khám phá các dòng xe hiện đại, phù hợp với nhu cầu di chuyển của bạn.
-        Chúng tôi mang đến những mẫu xe chất lượng cao với công nghệ tiên tiến.
-      </p>
-
-      {/* Giới thiệu */}
-      <div className="row mt-4">
-        <div className="col-md-6">
-          <img
-            src="https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg"
-            alt="Honda AirBlade 150"
-            className="img-fluid rounded"
-          />
-        </div>
-        <div className="col-md-6">
-          <h2>Honda AirBlade 150</h2>
-          <p>
-            Honda AirBlade 150 là mẫu xe tay ga mạnh mẽ, tiết kiệm nhiên liệu
-            với thiết kế thể thao, phù hợp với đô thị hiện đại.
-          </p>
-          <button
-            className="btn btn-primary"
-            onClick={() => navigate("/productdetail")}
-          >
-            Xem Chi Tiết
-          </button>
-        </div>
-      </div>
-
-      {/* Sản phẩm */}
-      <div className="mt-5">
-        <h2>Sản Phẩm Nổi Bật</h2>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
         <div className="row">
           <div className="col-md-4">
             <div className="card">
               <img
-<<<<<<< HEAD
                 src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSAZB73NG4ow3lkBgUD9o3GljSghAy5JMxCTA&s"
                 className="card-img-top"
                 alt="Bảo dưỡng xe"
@@ -163,30 +119,12 @@ const Home = () => {
                   Dịch vụ bảo dưỡng chuyên nghiệp, giúp xe của bạn luôn vận hành
                   êm ái.
                 </p>
-=======
-                src="https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg"
-                className="card-img-top"
-                alt="Yamaha Exciter 155"
-              />
-              <div className="card-body">
-                <h5 className="card-title">Yamaha Exciter 155</h5>
-                <p className="card-text">
-                  Dòng xe côn tay mạnh mẽ với công nghệ tiên tiến.
-                </p>
-                <button
-                  className="btn btn-success"
-                  onClick={() => navigate("/productdetail")}
-                >
-                  Xem Chi Tiết
-                </button>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
               </div>
             </div>
           </div>
           <div className="col-md-4">
             <div className="card">
               <img
-<<<<<<< HEAD
                 src="https://thienthanhlimo.com/wp-content/uploads/2022/05/tong-hop-99-hinh-anh-nguoi-tho-sua-xe-may-y-nghia.jpg"
                 className="card-img-top"
                 alt="Sửa chữa xe"
@@ -196,30 +134,12 @@ const Home = () => {
                 <p className="card-text">
                   Đội ngũ kỹ thuật viên tay nghề cao sẵn sàng hỗ trợ bạn.
                 </p>
-=======
-                src="https://static.automotor.vn/w827/images/upload/thuongtth/10032019/suzuki-raider.jpg"
-                className="card-img-top"
-                alt="Suzuki Raider 150"
-              />
-              <div className="card-body">
-                <h5 className="card-title">Suzuki Raider 150</h5>
-                <p className="card-text">
-                  Dòng xe thể thao với động cơ mạnh mẽ.
-                </p>
-                <button
-                  className="btn btn-success"
-                  onClick={() => navigate("/productdetail")}
-                >
-                  Xem Chi Tiết
-                </button>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
               </div>
             </div>
           </div>
           <div className="col-md-4">
             <div className="card">
               <img
-<<<<<<< HEAD
                 src="https://yamaha-motor.com.vn/wp/wp-content/uploads/2020/09/phu-tung-xe-may-chinh-hang-300x237.jpg"
                 className="card-img-top"
                 alt="Phụ tùng chính hãng"
@@ -229,46 +149,11 @@ const Home = () => {
                 <p className="card-text">
                   Cung cấp các loại phụ tùng chất lượng, đảm bảo an toàn.
                 </p>
-=======
-                src="https://media.vov.vn/sites/default/files/styles/large/public/2023-05/91ebf210df2b0175583a.jpg"
-                className="card-img-top"
-                alt="Honda Winner X"
-              />
-              <div className="card-body">
-                <h5 className="card-title">Honda Winner X</h5>
-                <p className="card-text">
-                  Thiết kế thể thao, động cơ mạnh mẽ phù hợp với phượt đường
-                  dài.
-                </p>
-                <button
-                  className="btn btn-success"
-                  onClick={() => navigate("/product-detail")}
-                >
-                  Xem Chi Tiết
-                </button>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
               </div>
             </div>
           </div>
         </div>
       </div>
-<<<<<<< HEAD
-      <section id="clients" className="clients section mt-5">
-        <div className="container section-title" data-aos="fade-up">
-          <h2>Đối tác</h2>
-          <p>
-            "Được nhập khẩu trực tiếp không qua trung gian, đảm bảo quyền lợi
-            tối đa cho khách hàng"
-          </p>
-        </div>
-        <div className="container" data-aos="fade-up" data-aos-delay="100">
-          <div className="row g-0 clients-wrap">
-            {clients.map((client) => (
-              <div key={client.id} className="col-xl-3 col-md-4 client-logo">
-                <img src={client.logo} alt={`Client ${client.id}`} />
-              </div>
-            ))}
-=======
 
       {/* Blog */}
       <div className="mt-5">
@@ -329,7 +214,6 @@ const Home = () => {
                 <button className="btn btn-info">Đọc Thêm</button>
               </div>
             </div>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
           </div>
         </div>
       </div>

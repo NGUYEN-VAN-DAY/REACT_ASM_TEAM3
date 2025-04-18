@@ -44,11 +44,7 @@ const Register = () => {
               <label className="form-label">Nhập lại mật khẩu:</label>
               <input type="password" name="confirmPassword" value={form.confirmPassword} onChange={handleChange} className="form-control" required />
             </div>
-<<<<<<< HEAD
             <button type="submit" className="btn btn-success w-100">Đăng Ký</button>
-=======
-            <button type="submit" className="btn btn-primary w-100">Đăng Ký</button>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
           </form>
         )}
         <p className="text-center mt-3">

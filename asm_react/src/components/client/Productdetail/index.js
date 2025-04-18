@@ -3,7 +3,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 
 const ProductDetail = () => {
-<<<<<<< HEAD
   const [product, setProduct] = useState(null);
   const [products, setProducts] = useState([]);
   const [mainImage, setMainImage] = useState("");
@@ -15,47 +14,6 @@ const ProductDetail = () => {
       .get(`http://localhost:3000/products/list/${id}`)
       .then((response) => {
         const fetchedProduct = response.data?.data;
-=======
-  const product = {
-    id: 1,
-    name: "Xe máy honda",
-    price: "30.000.000 VNĐ",
-    salePrice: "300.000 VNĐ",
-    description: "Xe máy Honda Xe máy Honda Xe máy Honda.",
-    details: {
-      type: "Đồ uống",
-      brand: "Highlands Coffee",
-      origin: "Việt Nam",
-    },
-    images: [
-      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-      "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-    ],
-  };
-
-  const relatedProducts = [
-    {
-      id: 2,
-      name: "Xe máy Yamaha",
-      price: "30.000.000 VNĐ",
-      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-    },
-    {
-      id: 3,
-      name: "Xe máy Suzuki",
-      price: "32.000.000 VNĐ",
-      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-    },
-    {
-      id: 4,
-      name: "Xe máy Kawasaki",
-      price: "40.000.000 VNĐ",
-      image: "https://denledxe.com/uploads/page/2020_12/Honda-AirBlade-150-2021.jpg",
-    },
-  ];
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
 
         if (fetchedProduct) {
           const images = Array.isArray(fetchedProduct.images)
@@ -175,11 +133,7 @@ const ProductDetail = () => {
           ))}
         </div>
       </div>
-<<<<<<< HEAD
       */}
-=======
-      <br></br>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
     </div>
     
   );
