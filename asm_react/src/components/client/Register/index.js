@@ -1,20 +1,42 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import axios from "axios";
-import { toast, ToastContainer } from "react-toastify";
-import "react-toastify/dist/ReactToastify.css";
 
 const Register = () => {
-  const navigate = useNavigate();
-  const [loading, setLoading] = useState(false);
   const [form, setForm] = useState({
     name: "",
     email: "",
-    phone: "",
-    address: "",
     password: "",
     confirmPassword: "",
   });
+  const [errors, setErrors] = useState({});
+  const [submitted, setSubmitted] = useState(false);
+  const [loading, setLoading] = useState(false);
+
+  const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+  const validate = () => {
+    const newErrors = {};
+
+    if (!form.name || form.name.trim().length < 3) {
+      newErrors.name = "Tên phải có ít nhất 3 ký tự.";
+    }
+
+    if (!form.email || !emailRegex.test(form.email)) {
+      newErrors.email = "Email không hợp lệ.";
+    }
+
+    if (!form.password || form.password.length < 6) {
+      newErrors.password = "Mật khẩu phải có ít nhất 6 ký tự.";
+    }
+
+    if (form.password !== form.confirmPassword) {
+      newErrors.confirmPassword = "Mật khẩu nhập lại không khớp.";
+    }
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -22,38 +44,24 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Kiểm tra xác nhận mật khẩu
-    if (form.password !== form.confirmPassword) {
-      toast.error("Mật khẩu nhập lại không khớp!");
-      return;
-    }
+    if (!validate()) return;
 
     setLoading(true);
-
     try {
-      const response = await axios.post(
-        "http://localhost:3000/users/register",
-        form,
-        {
-          withCredentials: true,
-        }
-      );
+      const response = await axios.post("http://localhost:3000/users/register", {
+        name: form.name,
+        email: form.email,
+        password: form.password,
+      });
 
-      if (response.data.success) {
-        toast.success("Đăng ký thành công!");
-        // Chuyển hướng đến trang đăng nhập sau 2 giây
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
+      if (response.data.status) {
+        setSubmitted(true);
+      } else {
+        setErrors({ general: response.data.message || "Đăng ký thất bại!" });
       }
-    } catch (error) {
-      console.error("Lỗi đăng ký:", error);
-
-      // Hiển thị thông báo lỗi từ server hoặc thông báo mặc định
-      const errorMessage =
-        error.response?.data?.message || "Đăng ký thất bại. Vui lòng thử lại.";
-      toast.error(errorMessage);
+    } catch (err) {
+      console.error(err);
+      setErrors({ general: "Đã xảy ra lỗi khi kết nối với máy chủ!" });
     } finally {
       setLoading(false);
     }
@@ -61,99 +69,70 @@ const Register = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
-      <div className="card p-4 shadow" style={{ width: "450px" }}>
-        <h2 className="text-center mb-4">Đăng Ký Tài Khoản</h2>
-        <ToastContainer position="top-right" autoClose={3000} />
+      <div className="card p-4 shadow" style={{ width: "380px" }}>
+        <h2 className="text-center mb-4">Đăng Ký</h2>
 
-        <form onSubmit={handleSubmit}>
-          <div className="mb-3">
-            <label className="form-label">Họ và Tên:</label>
-            <input
-              type="text"
-              name="name"
-              value={form.name}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
+        {submitted ? (
+          <div className="alert alert-success text-center">
+            Đăng ký thành công! Hãy <Link to="/login">đăng nhập</Link>.
           </div>
+        ) : (
+          <form onSubmit={handleSubmit} noValidate>
+            {errors.general && <div className="alert alert-danger text-center">{errors.general}</div>}
 
-          <div className="mb-3">
-            <label className="form-label">Email:</label>
-            <input
-              type="email"
-              name="email"
-              value={form.email}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
+            <div className="mb-3">
+              <label className="form-label">Họ và Tên:</label>
+              <input
+                type="text"
+                name="name"
+                value={form.name}
+                onChange={handleChange}
+                className={`form-control ${errors.name ? "is-invalid" : ""}`}
+              />
+              {errors.name && <div className="invalid-feedback">{errors.name}</div>}
+            </div><div className="mb-3">
+              <label className="form-label">Email:</label>
+              <input
+                type="email"
+                name="email"
+                value={form.email}
+                onChange={handleChange}
+                className={`form-control ${errors.email ? "is-invalid" : ""}`}
+              />
+              {errors.email && <div className="invalid-feedback">{errors.email}</div>}
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label">Số điện thoại:</label>
-            <input
-              type="tel"
-              name="phone"
-              value={form.phone}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
+            <div className="mb-3">
+              <label className="form-label">Mật khẩu:</label>
+              <input
+                type="password"
+                name="password"
+                value={form.password}
+                onChange={handleChange}
+                className={`form-control ${errors.password ? "is-invalid" : ""}`}
+              />
+              {errors.password && <div className="invalid-feedback">{errors.password}</div>}
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label">Địa chỉ:</label>
-            <input
-              type="text"
-              name="address"
-              value={form.address}
-              onChange={handleChange}
-              className="form-control"
-              required
-            />
-          </div>
+            <div className="mb-3">
+              <label className="form-label">Nhập lại mật khẩu:</label>
+              <input
+                type="password"
+                name="confirmPassword"
+                value={form.confirmPassword}
+                onChange={handleChange}
+                className={`form-control ${errors.confirmPassword ? "is-invalid" : ""}`}
+              />
+              {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
+            </div>
 
-          <div className="mb-3">
-            <label className="form-label">Mật khẩu:</label>
-            <input
-              type="password"
-              name="password"
-              value={form.password}
-              onChange={handleChange}
-              className="form-control"
-              required
-              minLength="6"
-            />
-          </div>
-
-          <div className="mb-3">
-            <label className="form-label">Nhập lại mật khẩu:</label>
-            <input
-              type="password"
-              name="confirmPassword"
-              value={form.confirmPassword}
-              onChange={handleChange}
-              className="form-control"
-              required
-              minLength="6"
-            />
-          </div>
-
-          <button
-            type="submit"
-            className="btn btn-success w-100"
-            disabled={loading}
-          >
-            {loading ? "Đang xử lý..." : "Đăng Ký"}
-          </button>
-        </form>
-
+            <button type="submit" className="btn btn-success w-100" disabled={loading}>
+              {loading ? "Đang Đăng Ký..." : "Đăng Ký"}
+            </button>
+          </form>
+        )}
         <p className="text-center mt-3">
-          Đã có tài khoản?{" "}
-          <Link to="/login" className="text-primary">
-            Đăng nhập
-          </Link>
+          Đã có tài khoản? <Link to="/login">Đăng nhập</Link>
         </p>
       </div>
     </div>
