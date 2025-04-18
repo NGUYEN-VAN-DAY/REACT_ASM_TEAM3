@@ -92,7 +92,7 @@ function Products() {
               filteredProducts.map((product) => (
                 <div key={product.id} className="col-lg-4 col-md-6 portfolio-item">
                   <img
-                    src={`http://localhost:3000/uploads/${product.images}`}
+                    src={`${product.imageUrl}`}
                     alt={product.title}
                     className="img-fluid"
                     onClick={() => navigate(`/productdetail/${product.id}`)} // Sửa lại để đi đến chi tiết sản phẩm
