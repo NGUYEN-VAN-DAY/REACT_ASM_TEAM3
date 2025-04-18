@@ -52,16 +52,17 @@ const ListCategory = () => {
               />
             </td>
             <td>{value.status == 0 ? "ẩn" : "hiện"}</td>
+            <td>{value.description}</td>
             <td>
               {/* Click vào nút cập nhật */}
               {/* Thực hiện chuyển trang */}
               {/* /register-hook-form?id=123 */}
               {/* Query params */}
-              <Link to={`/register-hook-form?id=${value.id}`} type="button" class="btn btn-warning me-3">
-                Update
+              <Link to={`/admin/categories/edit/${value.id}`} type="button" class="btn btn-warning me-3">
+               Sửa
               </Link>
               <button onClick={deleteCategory.bind(this, {id: value.id, name: value.name})} type="button" class="btn btn-danger">
-                Delete
+                Xóa
               </button>
             </td>
           </tr>
@@ -100,6 +101,7 @@ const ListCategory = () => {
                             
                                     <th>Ảnh</th>
                                     <th>Trang thái</th>
+                                    <th>Mô tả</th>
                                     <th>Thao tác</th>
                                 </tr>
                             </thead>
