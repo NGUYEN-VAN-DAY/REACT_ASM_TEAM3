@@ -1,34 +1,37 @@
-const UserModel = require('../models/userModel');
+const User = require('../models/userModel');
 const fs = require('fs');
 const path = require('path');
-const { v4: uuidv4 } = require('uuid'); // Để tạo tên file ngẫu nhiên
+const bcrypt = require('bcrypt');
+const { v4: uuidv4 } = require('uuid'); // To generate random file names
+
 function decodeBase64(str) {
     return Buffer.from(str, 'base64').toString('utf8');
 }
+
 class UserController {
     static async login(req, res) {
         try {
           const { email, password } = req.body;
-          console.log("Dữ liệu nhận được:", req.body);
+          console.log("Received data:", req.body);
     
           if (!email || !password) {
-            return res.status(400).json({ message: "Vui lòng cung cấp email và mật khẩu!" });
+            return res.status(400).json({ message: "Please provide email and password!" });
           }
     
-          // Tìm user theo email
+          // Find user by email
           const user = await User.findOne({ where: { email } });
           if (!user) {
-            return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác!" });
+            return res.status(400).json({ message: "Invalid email or password!" });
           }
     
-          // So sánh mật khẩu
+          // Compare password
           const isMatch = await bcrypt.compare(password, user.password);
-          console.log("Kết quả so sánh mật khẩu:", isMatch);
+          console.log("Password match result:", isMatch);
           if (!isMatch) {
-            return res.status(400).json({ message: "Email hoặc mật khẩu không chính xác!" });
+            return res.status(400).json({ message: "Invalid email or password!" });
           }
     
-          // Lưu thông tin user vào session (không dùng token)
+          // Save user info in session (not using token)
           req.session.user = {
             id: user.id,
             name: user.name,
@@ -36,9 +39,9 @@ class UserController {
             role: user.role
           };
     
-          // Trả về response thành công, không kèm token
+          // Return success response without token
           return res.status(200).json({
-            message: "Đăng nhập thành công!",
+            message: "Login successful!",
             user: {
               id: user.id,
               name: user.name,
@@ -48,21 +51,21 @@ class UserController {
           });
     
         } catch (error) {
-          console.error("Lỗi server:", error);
+          console.error("Server error:", error);
           return res.status(500).json({
-            message: "Lỗi server, vui lòng thử lại!",
+            message: "Server error, please try again!",
             error: error.message
           });
         }
-      }
+    }
 
     static async get(req, res) {
         try {
-            const user = await UserModel.findAll();
+            const users = await User.findAll();
             res.status(200).json({
                 "status": 200,
-                "message": "Lấy danh sách thành công",
-                "data": user
+                "message": "Users retrieved successfully",
+                "data": users
             });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -72,10 +75,10 @@ class UserController {
     static async getById(req, res) {
         try {
             const { id } = req.params;
-            const user = await UserModel.findByPk(id);
+            const user = await User.findByPk(id);
 
             if (!user) {
-                return res.status(404).json({ message: "Id không tồn tại" });
+                return res.status(404).json({ message: "User not found" });
             }
 
             res.status(200).json({
@@ -89,22 +92,21 @@ class UserController {
 
     static async create(req, res) {
         try {
-
-            const { name, phone, addpress, username, password, avatar } = req.body;
-            if (!name || !phone || !addpress || !username || !password) {
-                return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin bắt buộc!" });
+            const { name, phone, address, username, password, avatar } = req.body;  // Corrected addpress to address
+            if (!name || !phone || !address || !username || !password) {
+                return res.status(400).json({ message: "Please provide all required fields!" });
             }
-            const user = await UserModel.create({
+            const user = await User.create({
                 name,
                 phone,
-                addpress,
+                address,  // Corrected to address
                 username,
                 password,
                 avatar: avatar || 'default-avatar.jpg'
             });
 
             res.status(201).json({
-                message: "Thêm mới thành công",
+                message: "User created successfully",
                 user
             });
         } catch (error) {
@@ -112,24 +114,23 @@ class UserController {
         }
     }
 
-
     static async base64(req, res) {
         try {
-            // Giải mã tất cả các trường
+            // Decode all fields
             const name = decodeBase64(req.body.name);
             const phone = decodeBase64(req.body.phone);
-            const addpress = decodeBase64(req.body.addpress);
+            const address = decodeBase64(req.body.address);  // Corrected addpress to address
             const username = decodeBase64(req.body.username);
             const password = decodeBase64(req.body.password);
             const avatarBase64 = req.body.avatar;
 
-            if (!name || !phone || !addpress || !username || !password) {
-                return res.status(400).json({ message: "Vui lòng nhập đầy đủ thông tin bắt buộc!" });
+            if (!name || !phone || !address || !username || !password) {
+                return res.status(400).json({ message: "Please provide all required fields!" });
             }
 
             let avatarFilename = 'default-avatar.jpg';
 
-            // Nếu có avatar dạng base64 thì lưu
+            // If avatar in base64 exists, save it
             if (avatarBase64) {
                 const base64Data = avatarBase64.replace(/^data:image\/\w+;base64,/, '');
                 const buffer = Buffer.from(base64Data, 'base64');
@@ -144,17 +145,17 @@ class UserController {
                 avatarFilename = filename;
             }
 
-            const user = await UserModel.create({
+            const user = await User.create({
                 name,
                 phone,
-                addpress,
+                address,  // Corrected to address
                 username,
                 password,
                 avatar: avatarFilename
             });
 
             res.status(201).json({
-                message: "Thêm mới thành công",
+                message: "User created successfully",
                 user
             });
         } catch (error) {
@@ -162,22 +163,18 @@ class UserController {
         }
     }
 
-
     static async update(req, res) {
         try {
             const { id } = req.params;
-            // const { name } = req.body;
-
-            const user = await UserModel.findByPk(id);
+            const user = await User.findByPk(id);
             if (!user) {
-                return res.status(404).json({ message: "Id không tồn tại" });
+                return res.status(404).json({ message: "User not found" });
             }
 
-            // user.name = name;
             await user.save();
 
             res.status(200).json({
-                message: "Cập nhật thành công",
+                message: "User updated successfully",
                 user
             });
         } catch (error) {
@@ -189,18 +186,70 @@ class UserController {
         try {
             const { id } = req.params;
 
-            const user = await UserModel.findByPk(id);
+            const user = await User.findByPk(id);
             if (!user) {
-                return res.status(404).json({ message: "Id không tồn tại" });
+                return res.status(404).json({ message: "User not found" });
             }
 
             await user.destroy();
 
-            res.status(200).json({ message: "Xóa thành công" });
+            res.status(200).json({ message: "User deleted successfully" });
         } catch (error) {
             res.status(500).json({ error: error.message });
+        }
+    }
+
+    static async register(req, res) {
+        try {
+            const { name, email, password } = req.body;
+
+            // Check if all required fields are provided
+            if (!name || !email || !password) {
+                return res.status(400).json({ status: false, message: "Please provide all fields!" });
+            }
+
+            // Validate email format
+            const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+            if (!emailRegex.test(email)) {
+                return res.status(400).json({ status: false, message: "Invalid email format!" });
+            }
+
+            // Check if email already exists
+            const existingUser = await User.findOne({ where: { email } });
+            if (existingUser) {
+                return res.status(400).json({ status: false, message: "Email is already in use!" });
+            }
+
+            // Hash the password
+            const hashedPassword = await bcrypt.hash(password, 10);
+
+            // Create new user
+            const newUser = await User.create({
+                name,
+                email,
+                password: hashedPassword
+            });
+
+            return res.status(201).json({
+                status: true,
+                message: "Registration successful!",
+                user: {
+                    id: newUser.id,
+                    name: newUser.name,
+                    email: newUser.email
+                }
+            });
+
+        } catch (error) {
+            console.error("Registration error:", error);
+            return res.status(500).json({
+                status: false,
+                message: "Server error!",
+                error: error.message
+            });
         }
     }
 }
 
 module.exports = UserController;
+ 

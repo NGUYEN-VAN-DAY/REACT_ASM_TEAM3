@@ -11,21 +11,18 @@ const User = connection.define('user', {
         type: DataTypes.STRING,
         allowNull: false
     },
-    phone: {
+    email: {                        // ✅ Thêm dòng này
         type: DataTypes.STRING,
-        allowNull: false
-    },
-    addpress: {
-        type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
+        unique: true
     },
     phone: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
-    username: {
+    address: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     password: {
         type: DataTypes.STRING,
@@ -33,10 +30,10 @@ const User = connection.define('user', {
     },
     avatar: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
 }, {
-    tableName: 'user',
+    tableName: 'users',
     timestamps: false,
 });
 
