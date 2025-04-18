@@ -125,30 +125,43 @@ const Home = () => {
           <div className="col-md-4">
             <div className="card">
               <img
-                src="https://thienthanhlimo.com/wp-content/uploads/2022/05/tong-hop-99-hinh-anh-nguoi-tho-sua-xe-may-y-nghia.jpg"
+                src="https://static.automotor.vn/w827/images/upload/thuongtth/10032019/suzuki-raider.jpg"
                 className="card-img-top"
-                alt="Sửa chữa xe"
+                alt="Suzuki Raider 150"
               />
               <div className="card-body">
-                <h5 className="card-title">Sửa Chữa Xe</h5>
+                <h5 className="card-title">Suzuki Raider 150</h5>
                 <p className="card-text">
-                  Đội ngũ kỹ thuật viên tay nghề cao sẵn sàng hỗ trợ bạn.
+                  Dòng xe thể thao với động cơ mạnh mẽ.
                 </p>
+                <button
+                  className="btn btn-success"
+                  onClick={() => navigate("/productdetail")}
+                >
+                  Xem Chi Tiết
+                </button>
               </div>
             </div>
           </div>
           <div className="col-md-4">
             <div className="card">
               <img
-                src="https://yamaha-motor.com.vn/wp/wp-content/uploads/2020/09/phu-tung-xe-may-chinh-hang-300x237.jpg"
+                src="https://media.vov.vn/sites/default/files/styles/large/public/2023-05/91ebf210df2b0175583a.jpg"
                 className="card-img-top"
-                alt="Phụ tùng chính hãng"
+                alt="Honda Winner X"
               />
               <div className="card-body">
-                <h5 className="card-title">Phụ Tùng Chính Hãng</h5>
+                <h5 className="card-title">Honda Winner X</h5>
                 <p className="card-text">
-                  Cung cấp các loại phụ tùng chất lượng, đảm bảo an toàn.
+                  Thiết kế thể thao, động cơ mạnh mẽ phù hợp với phượt đường
+                  dài.
                 </p>
+                <button
+                  className="btn btn-success"
+                  onClick={() => navigate("/product-detail")}
+                >
+                  Xem Chi Tiết
+                </button>
               </div>
             </div>
           </div>

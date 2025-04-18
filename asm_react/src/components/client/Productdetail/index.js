@@ -1,12 +1,23 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { isAuthenticated, addToCart } from "../../../utils/auth";
 
 const ProductDetail = () => {
   const [product, setProduct] = useState(null);
-  const [products, setProducts] = useState([]);
   const [mainImage, setMainImage] = useState("");
+  const [quantity, setQuantity] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const { id } = useParams();
+  const navigate = useNavigate();
+
+  // Kiểm tra người dùng đã đăng nhập chưa
+  useEffect(() => {
+    setIsLoggedIn(isAuthenticated());
+  }, []);
 
   useEffect(() => {
     // Lấy chi tiết sản phẩm
@@ -33,30 +44,66 @@ const ProductDetail = () => {
       })
       .catch((error) => {
         console.error("Lỗi khi tải chi tiết sản phẩm:", error);
-      });
-
-    // Lấy danh sách sản phẩm liên quan
-    axios
-      .get("http://localhost:3000/products/list")
-      .then((response) => {
-        setProducts(response.data || []);
-      })
-      .catch((error) => {
-        console.error("Lỗi khi tải sản phẩm liên quan:", error);
+        toast.error("Không thể tải thông tin sản phẩm. Vui lòng thử lại sau.");
       });
   }, [id]);
 
+  const handleQuantityChange = (e) => {
+    const value = parseInt(e.target.value);
+    if (value > 0) {
+      setQuantity(value);
+    }
+  };
+
+  const handleAddToCart = async () => {
+    if (!isLoggedIn) {
+      toast.error("Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng!");
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      // Tính giá (ưu tiên giá khuyến mãi nếu có)
+      const price = product.salePrice > 0 ? product.salePrice : product.price;
+
+      // Sử dụng utility để thêm vào giỏ hàng
+      await addToCart(product, quantity, price);
+      toast.success("Thêm vào giỏ hàng thành công!");
+    } catch (error) {
+      console.error("Lỗi khi thêm vào giỏ hàng:", error);
+      toast.error(
+        error.message || "Không thể thêm vào giỏ hàng. Vui lòng thử lại!"
+      );
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   if (!product) {
-    return <p>Đang tải dữ liệu sản phẩm...</p>;
+    return (
+      <div className="container mt-5 text-center">
+        <div className="spinner-border text-primary" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+        <p className="mt-2">Đang tải dữ liệu sản phẩm...</p>
+      </div>
+    );
   }
 
   return (
     <div className="container mt-5">
+      <ToastContainer position="top-right" autoClose={3000} />
       <div className="row">
         {/* Hình ảnh chính */}
         <div className="col-md-6">
           <img
-            src={`http://localhost:3000/uploads/${mainImage}`}
+            src={
+              product.imageUrl || `http://localhost:3000/images/${mainImage}`
+            }
             alt="Ảnh sản phẩm"
             className="img-fluid rounded"
             style={{ width: "100%" }}
@@ -65,7 +112,7 @@ const ProductDetail = () => {
             {product.images.map((img, index) => (
               <img
                 key={index}
-                src={`http://localhost:3000/uploads/${img}`}
+                src={`http://localhost:3000/images/${img}`}
                 alt={`Ảnh ${index + 1}`}
                 className="img-thumbnail me-2"
                 style={{ width: "70px", height: "50px", cursor: "pointer" }}
@@ -79,11 +126,15 @@ const ProductDetail = () => {
         <div className="col-md-6">
           <h2>{product.title}</h2>
           <p className="text-success">
-            <strong>Giá:</strong> {product.price} VNĐ
+            <strong>Giá:</strong>{" "}
+            {parseInt(product.price).toLocaleString("vi-VN")} VNĐ
           </p>
-          <p className="text-danger">
-            <strong>Giá khuyến mãi:</strong> {product.salePrice} VNĐ
-          </p>
+          {product.salePrice > 0 && (
+            <p className="text-danger">
+              <strong>Giá khuyến mãi:</strong>{" "}
+              {parseInt(product.salePrice).toLocaleString("vi-VN")} VNĐ
+            </p>
+          )}
           <p>
             <strong>Loại sản phẩm:</strong>{" "}
             {product.details?.type || "Không có"}
@@ -97,45 +148,30 @@ const ProductDetail = () => {
           <p>
             <strong>Mô tả:</strong> {product.description}
           </p>
-          <button className="btn btn-success">Đặt hàng ngay</button>
-        </div>
-      </div>
 
-      {/* Sản phẩm liên quan (tùy chọn) */}
-      {/* 
-      <div className="mt-5">
-        <h3>Sản phẩm liên quan</h3>
-        <div className="row">
-          {products.map((item) => (
-            <div key={item.id} className="col-md-4 mb-3">
-              <div className="card">
-                <img
-                  src={
-                    item.image
-                      ? `http://localhost:3000/uploads/${item.image}`
-                      : item.images?.[0]
-                      ? `http://localhost:3000/uploads/${item.images[0]}`
-                      : ""
-                  }
-                  alt={item.title}
-                  className="card-img-top"
-                  style={{ height: "150px", objectFit: "cover" }}
-                />
-                <div className="card-body">
-                  <h5 className="card-title">{item.title}</h5>
-                  <p className="card-text text-danger">
-                    <strong>{item.price} VNĐ</strong>
-                  </p>
-                  <button className="btn btn-success">Xem chi tiết</button>
-                </div>
-              </div>
+          <div className="mb-3">
+            <div className="input-group" style={{ maxWidth: "200px" }}>
+              <span className="input-group-text">Số lượng</span>
+              <input
+                type="number"
+                className="form-control"
+                value={quantity}
+                onChange={handleQuantityChange}
+                min="1"
+              />
             </div>
-          ))}
+          </div>
+
+          <button
+            className="btn btn-success btn-lg"
+            onClick={handleAddToCart}
+            disabled={isLoading}
+          >
+            {isLoading ? "Đang xử lý..." : "Thêm vào giỏ hàng"}
+          </button>
         </div>
       </div>
-      */}
     </div>
-    
   );
 };
 
