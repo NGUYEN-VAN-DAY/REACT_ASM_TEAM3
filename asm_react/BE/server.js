@@ -12,6 +12,7 @@ const bodyParser = require('body-parser');
 
 const path = require('path');
 
+app.use(cors()); 
 
 app.use(bodyParser.json()); // NHẬN DỮ LIỆU TỪ FORM JSON
 app.use(bodyParser.urlencoded({ extended: true })); // NHẬN DŨ LIỆU WWWW-FROM-URLENCODED
