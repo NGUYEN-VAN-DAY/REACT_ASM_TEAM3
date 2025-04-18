@@ -47,7 +47,7 @@ const ListCategory = () => {
           
             <td>
               <img
-                src={`${value.image}`}
+                src={`${Constanst.DOMAIN_API}/uploads/${value.image}`}
                 style={imageStyle}
               />
             </td>
