@@ -8,7 +8,7 @@ import Login from "./components/client/Login";
 import NotFound from "./pages/NotFound";
 
 import EditProduct from "./pages/admin/product/edit";
-import ListCategory from "./pages/admin/category";
+import ListCategory from "./pages/admin/category/index"
 import AddCate from "./pages/admin/category/create";
 import EditCate from "./pages/admin/category/edit";
 import Home from "./components/client/Home";
@@ -23,6 +23,7 @@ import Header from "./components/client/layouts/Header";
 import Footer from "./components/client/layouts/Footer";
 import EventsPage from "./components/client/EventsPage";
 import "./App.css";
+import AddCategory from "./pages/admin/category/create";
 
 
 
@@ -67,7 +68,7 @@ function App() {
 
           {/* Routes cho danh mục */}
           <Route path="categories" element={<ListCategory />} />
-          <Route path="categories/add" element={<AddCate />} />
+          <Route path="categories/add" element={<AddCategory />} />
           <Route path="categories/edit/:id" element={<EditCate />} />
         </Route>
 
