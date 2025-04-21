@@ -1,0 +1,31 @@
+const connection = require('../database');
+const { DataTypes } = require('sequelize');
+
+const Category = connection.define('categories', {
+    id: {
+        type: DataTypes.INTEGER,
+        autoIncrement: true,
+        primaryKey: true
+    },
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    status: {
+        type: DataTypes.NUMBER,
+        allowNull: false
+    },
+    image: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+    description: {
+        type: DataTypes.STRING,
+        allowNull: false
+    },
+}, {
+    tableName: 'categories',
+    timestamps: true,
+});
+
+module.exports = Category;

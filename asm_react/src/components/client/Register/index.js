@@ -128,18 +128,14 @@ const Register = () => {
               />
               {errors.confirmPassword && <div className="invalid-feedback">{errors.confirmPassword}</div>}
             </div>
-<<<<<<< HEAD
+
 
             <button type="submit" className="btn btn-success w-100" disabled={loading}>
               {loading ? "Đang Đăng Ký..." : "Đăng Ký"}
             </button>
-=======
-<<<<<<< HEAD
-            <button type="submit" className="btn btn-success w-100">Đăng Ký</button>
-=======
+
             <button type="submit" className="btn btn-primary w-100">Đăng Ký</button>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
->>>>>>> b27b9b9390393d63a5a7effb4d9fefb66c28890f
+
           </form>
         )}
         <p className="text-center mt-3">

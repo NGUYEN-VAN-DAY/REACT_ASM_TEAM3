@@ -1,50 +1,52 @@
-<<<<<<< HEAD
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import axios from "axios";
 
 const Login = () => {
-  const [formData, setFormData] = useState({ name: "", password: "" });
+  const [formData, setFormData] = useState({ email: "", password: "" });
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-=======
-import { useState } from "react";
-import { Link } from "react-router-dom";
-
-const Login = () => {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [submitted, setSubmitted] = useState(false);
-
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-<<<<<<< HEAD
-    console.log("Form submitted", formData);
-=======
-    setSubmitted(true);
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
+
+    try {
+      const res = await axios.post("http://localhost:3000/users/login", formData);
+      if (res.data.user) {
+        // Lưu vào localStorage
+        localStorage.setItem("user", JSON.stringify(res.data.user));
+
+        alert("Đăng nhập thành công!");
+        navigate("/");
+      } else {
+        setError(res.data.message || "Đăng nhập thất bại!");
+      }
+    } catch (err) {
+      console.error(err);
+      setError("Đã xảy ra lỗi khi đăng nhập!");
+    }
   };
 
   return (
     <div className="container d-flex justify-content-center align-items-center vh-100">
       <div className="card p-4 shadow" style={{ width: "350px" }}>
-<<<<<<< HEAD
         <h2 className="text-center">Đăng Nhập</h2>
+        {error && <div className="alert alert-danger">{error}</div>}
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="name">Tên Đăng Nhập</label>
+            <label htmlFor="email">Email</label>
             <input
-              type="text"
+              type="email"
               className="form-control border-success"
-              name="name"
-              id="name"
-              placeholder="Nhập tên đăng nhập"
-              value={formData.name}
+              name="email"
+              id="email"
+              placeholder="Nhập email"
+              value={formData.email}
               onChange={handleChange}
               required
             />
@@ -62,42 +64,26 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" className="btn btn-success btn-block mt-3 w-100">Đăng Nhập</button>
+          <button type="submit" className="btn btn-success btn-block mt-3 w-100">
+            Đăng Nhập
+          </button>
           <div className="text-center mt-3">
-            <Link to="#" className="text-danger me-2">Quên mật khẩu?</Link>
-            <Link to="/register" className="text-success">Đăng ký</Link>
+            <Link to="#" className="text-danger me-2">
+              Quên mật khẩu?
+            </Link>
+            <Link to="/register" className="text-success">
+              Đăng ký
+            </Link>
           </div>
         </form>
-=======
-        <h2 className="text-center mb-4">Đăng Nhập</h2>
-        {submitted ? (
-          <div className="alert alert-success text-center" role="alert">
-            Đăng nhập thành công!
-          </div>
-        ) : (
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label className="form-label">Email:</label>
-              <input type="email" name="email" value={form.email} onChange={handleChange} className="form-control" required />
-            </div>
-            <div className="mb-3">
-              <label className="form-label">Mật khẩu:</label>
-              <input type="password" name="password" value={form.password} onChange={handleChange} className="form-control" required />
-            </div>
-            <button type="submit" className="btn btn-primary w-100">Đăng Nhập</button>
-          </form>
-        )}
-        <p className="text-center mt-3">
-          Chưa có tài khoản? <Link to="/register">Đăng ký ngay</Link>
-        </p>
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
       </div>
     </div>
   );
 };
 
-<<<<<<< HEAD
 export default Login;
-=======
-export default Login;
->>>>>>> 28b2e06ad754c1579179073dc217380ad6676f61
+//API /users/login không trả token, mà dùng session (req.session.user). Do đó:
+
+// Nếu muốn bảo mật tốt hơn khi dùng API từ frontend, bạn nên dùng JWT (token) thay vì session.
+
+// Nếu bạn vẫn dùng session, hãy chắc chắn bạn đã cấu hình CORS với credentials: true ở cả backend và frontend.
