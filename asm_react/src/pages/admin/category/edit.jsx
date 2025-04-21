@@ -1,154 +1,109 @@
-import { useForm } from "react-hook-form";
-import { useParams, Link, useNavigate } from "react-router-dom";
-import { useState, useEffect } from "react";
-import axios from "axios";
-import Constanst from "../../../Constanst";
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useCookies } from 'react-cookie';
+import Constants from '../../../Constanst'; // Đường dẫn constants
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditCate = () => {
-  const { id } = useParams();
+  const [cookies] = useCookies(['token']);
   const navigate = useNavigate();
-  const [previewImage, setPreviewImage] = useState(null);
-  const [loading, setLoading] = useState(true);
+  const { id } = useParams(); // Lấy id từ URL params
 
-  const {
-    register,
-    handleSubmit,
-    setValue,
-    formState: { errors },
-  } = useForm();
+  const [formData, setFormData] = useState({
+    name: '',
+    description: '',
+    status: 1,
+  });
 
-  const fetchCategoryData = async () => {
-    try {
-      const res = await axios.get(`${Constanst.DOMAIN_API}/categories/${id}`);
-      const category = res.data;
-      console.log(category);
-
-      setValue("name", category.name);
-      setValue("description", category.description);
-      setValue("status", String(category.status));
-
-      if (category.image) {
-        setPreviewImage(`${Constanst.DOMAIN_API}/uploads/${category.image}`);
+  // Hàm lấy thông tin danh mục cũ
+  useEffect(() => {
+    const getCategoryById = async () => {
+      try {
+        const token = cookies.token;
+        const res = await axios.get(`${Constants.DOMAIN_API}/categories/${id}`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+        setFormData(res.data.data); // Gán dữ liệu danh mục vào state formData
+      } catch (error) {
+        console.error('Lỗi khi lấy thông tin danh mục:', error);
       }
-    } catch (error) {
-      console.error("Lỗi lấy danh mục:", error);
-    } finally {
-      setLoading(false);
-    }
+    };
+
+    getCategoryById(); // Gọi hàm để lấy dữ liệu
+  }, [id, cookies.token]);
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
-  useEffect(() => {
-    fetchCategoryData();
-  }, [id]);
-
-  const onSubmit = async (data) => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     try {
-      const formData = new FormData();
-      formData.append("name", data.name);
-      formData.append("description", data.description);
-      formData.append("status", data.status);
+      const token = cookies.token;
+      const data = new FormData();
+      data.append('name', formData.name);
+      data.append('description', formData.description);
+      data.append('status', formData.status);
 
-      if (data.image && data.image[0]) {
-        formData.append("image", data.image[0]);
-      }
-
-      await axios.put(`${Constanst.DOMAIN_API}/categories/${id}`, formData, {
-        headers: { "Content-Type": "multipart/form-data" },
+      // Gửi dữ liệu đã sửa tới API
+      await axios.put(`${Constants.DOMAIN_API}/categories/${id}`, data, {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
       });
 
-      alert("Cập nhật thành công!");
-      navigate("/admin/categories");
+      alert('Cập nhật danh mục thành công!');
+      navigate('/admin/categories');
     } catch (error) {
-      console.error("Lỗi cập nhật:", error);
-      alert("Lỗi khi cập nhật danh mục!");
+      console.error('Lỗi khi cập nhật danh mục:', error);
+      alert('Cập nhật danh mục thất bại!');
     }
   };
-
-  if (loading) {
-    return <div>Đang tải...</div>;
-  }
 
   return (
     <div className="card">
-      <div className="card-header d-flex justify-content-between align-items-center">
-        <h3 className="card-title">Chỉnh sửa Danh Mục</h3>
-        <Link to="/admin/categories" className="btn btn-success">
-          Quay về
-        </Link>
+      <div className="card-header">
+        <h3>Sửa danh mục</h3>
       </div>
       <div className="card-body">
-        <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
-          <div className="form-group mb-3">
-            <label htmlFor="name">Tên Danh Mục</label>
+        <form onSubmit={handleSubmit}>
+          <div className="mb-3">
+            <label className="form-label">Tên danh mục</label>
             <input
               type="text"
               className="form-control"
-              id="name"
-              {...register("name", {
-                required: "Tên danh mục không được để trống!",
-              })}
+              name="name"
+              value={formData.name}
+              onChange={handleChange}
+              required
             />
-            {errors.name && (
-              <p className="text-danger">{errors.name.message}</p>
-            )}
           </div>
-
-          <div className="form-group mb-3">
-            <label htmlFor="description">Mô Tả</label>
+          <div className="mb-3">
+            <label className="form-label">Mô tả</label>
             <textarea
               className="form-control"
-              rows={3}
-              id="description"
-              {...register("description", {
-                required: "Mô tả không được để trống!",
-              })}
+              name="description"
+              value={formData.description}
+              onChange={handleChange}
             ></textarea>
-            {errors.description && (
-              <p className="text-danger">{errors.description.message}</p>
-            )}
           </div>
-
-          <div className="form-group mb-3">
-            <label htmlFor="status">Trạng Thái</label>
+          <div className="mb-3">
+            <label className="form-label">Trạng thái</label>
             <select
-              className="form-select"
-              id="status"
-              {...register("status", {
-                required: "Trạng thái không được bỏ trống!",
-              })}
-            >
-              <option value="1">Hiện</option>
-              <option value="0">Ẩn</option>
-            </select>
-            {errors.status && (
-              <p className="text-danger">{errors.status.message}</p>
-            )}
-          </div>
-
-          <div className="form-group mb-3">
-            <label htmlFor="image">Ảnh</label>
-            <input
-              type="file"
               className="form-control"
-              id="image"
-              {...register("image")}
-              onChange={(e) => {
-                const file = e.target.files[0];
-                if (file) {
-                  setPreviewImage(URL.createObjectURL(file));
-                }
-              }}
-            />
-            {previewImage && (
-              <div className="mt-2">
-                <img src={previewImage} alt="Preview" width="120" />
-              </div>
-            )}
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+            >
+              <option value={1}>Hiện</option>
+              <option value={0}>Ẩn</option>
+            </select>
           </div>
-
-          <button type="submit" className="btn btn-primary">
-            Lưu
-          </button>
+          <button type="submit" className="btn btn-primary">Cập nhật</button>
         </form>
       </div>
     </div>

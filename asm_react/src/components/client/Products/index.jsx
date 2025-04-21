@@ -98,7 +98,7 @@ function Products() {
                     onClick={() => navigate(`/productdetail/${product.id}`)} // Sửa lại để đi đến chi tiết sản phẩm
                     style={{ cursor: 'pointer' }}
                   />
-                  <h3>{product.price} vnđ</h3>
+                  <h3> {parseInt(product.price).toLocaleString("vi-VN")} vnđ</h3>
                   <div className="portfolio-info">
                     <h4>{product.title}</h4>
                     <a

@@ -34,6 +34,8 @@ import MyOrders from './pages/client/MyOrders';
 import Orders from './pages/admin/Orders';
 import OrderDetail from './pages/admin/OrderDetail';
 import "./App.css";
+import { CookiesProvider } from 'react-cookie';
+
 
 const Layout = ({ children }) => {
   const location = useLocation();
@@ -41,7 +43,7 @@ const Layout = ({ children }) => {
   const user = localStorage.getItem("user") || "";
   return (
     <div className="flex flex-col min-h-screen">
-      {<Header data={ user} />}
+      {<Header data={user} />}
       <main className="flex-grow">{children}</main>
       {<Footer />}
     </div>
@@ -52,141 +54,143 @@ function App() {
   const user = "";
   return (
     <Router>
-      <CartProvider>
-        <Routes>
-          {/* Routes cho Client */}
-          <Route
-            path="/"
-            element={
+      <CookiesProvider>
+        <CartProvider>
+          <Routes>
+            {/* Routes cho Client */}
+            <Route
+              path="/"
+              element={
+                <Layout>
+                  <Home />
+                </Layout>
+              }
+            />
+            <Route
+              path="/home"
+              element={
+                <Layout>
+                  <Home />
+                </Layout>
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <Layout>
+                  <Introduction />
+                </Layout>
+              }
+            />
+            <Route
+              path="/shop"
+              element={
+                <Layout>
+                  <Products />
+                </Layout>
+              }
+            />
+            <Route
+              path="/productdetail/:id"
+              element={
+                <Layout>
+                  <ProductDetail />
+                </Layout>
+              }
+            />
+            <Route
+              path="/maintenance"
+              element={
+                <Layout>
+                  <Maintenance />
+                </Layout>
+              }
+            />
+            <Route
+              path="/blog"
+              element={
+                <Layout>
+                  <EventsPage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <Layout>
+                  <ContactPage />
+                </Layout>
+              }
+            />
+            <Route
+              path="/cart"
+              element={
+                <Layout>
+                  <Cart />
+                </Layout>
+              }
+            />
+            <Route
+              path="/order-confirmation/:orderId"
+              element={
+                <Layout>
+                  <OrderConfirmation />
+                </Layout>
+              }
+            />
+            <Route
+              path="/login"
+              element={
+                <Layout>
+                  <Login />
+                </Layout>
+              }
+            />
+            <Route
+              path="/register"
+              element={
+                <Layout>
+                  <Register />
+                </Layout>
+              }
+            />
+            <Route path="/checkout" element={
               <Layout>
-                <Home />
+                <Checkout />
               </Layout>
-            }
-          />
-          <Route
-            path="/home"
-            element={
+            } />
+            <Route path="/order-success" element={
               <Layout>
-                <Home />
+                <OrderSuccess />
               </Layout>
-            }
-          />
-          <Route
-            path="/about"
-            element={
+            } />
+            <Route path="/my-orders" element={
               <Layout>
-                <Introduction />
+                <MyOrders />
               </Layout>
-            }
-          />
-          <Route
-            path="/shop"
-            element={
-              <Layout>
-                <Products />
-              </Layout>
-            }
-          />
-          <Route
-            path="/productdetail/:id"
-            element={
-              <Layout>
-                <ProductDetail />
-              </Layout>
-            }
-          />
-          <Route
-            path="/maintenance"
-            element={
-              <Layout>
-                <Maintenance />
-              </Layout>
-            }
-          />
-          <Route
-            path="/blog"
-            element={
-              <Layout>
-                <EventsPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/contact"
-            element={
-              <Layout>
-                <ContactPage />
-              </Layout>
-            }
-          />
-          <Route
-            path="/cart"
-            element={
-              <Layout>
-                <Cart />
-              </Layout>
-            }
-          />
-          <Route
-            path="/order-confirmation/:orderId"
-            element={
-              <Layout>
-                <OrderConfirmation />
-              </Layout>
-            }
-          />
-          <Route
-            path="/login"
-            element={
-              <Layout>
-                <Login />
-              </Layout>
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <Layout>
-                <Register />
-              </Layout>
-            }
-          />
-          <Route path="/checkout" element={
-            <Layout>
-              <Checkout />
-            </Layout>
-          } />
-          <Route path="/order-success" element={
-            <Layout>
-              <OrderSuccess />
-            </Layout>
-          } />
-          <Route path="/my-orders" element={
-            <Layout>
-              <MyOrders />
-            </Layout>
-          } />
-          {/* Routes cho Admin */}
-          <Route path="/admin/*" element={<AdminLayout />}>
-            <Route path="dashboard" element={<Dashboard />} />
-            <Route path="login" element={<Login />} />
-            <Route path="products" element={<ListProduct />} />
-            <Route path="products/add" element={<Addproduct />} />
-            <Route path="products/edit/:id" element={<EditProduct />} />
+            } />
+            {/* Routes cho Admin */}
+            <Route path="/admin/*" element={<AdminLayout />}>
+              <Route path="dashboard" element={<Dashboard />} />
+              <Route path="login" element={<Login />} />
+              <Route path="products" element={<ListProduct />} />
+              <Route path="products/add" element={<Addproduct />} />
+              <Route path="products/edit/:id" element={<EditProduct />} />
 
-            {/* Routes cho danh mục */}
-            <Route path="categories" element={<ListCategory />} />
-            <Route path="categories/add" element={<AddCate />} />
-            <Route path="categories/edit/:id" element={<EditCate />} />
+              {/* Routes cho danh mục */}
+              <Route path="categories" element={<ListCategory />} />
+              <Route path="categories/add" element={<AddCate />} />
+              <Route path="categories/edit/:id" element={<EditCate />} />
 
-            <Route path="orders" element={<Orders />} />
-            <Route path="orders/:orderId" element={<OrderDetail />} />
-          </Route>
+              <Route path="orders" element={<Orders />} />
+              <Route path="orders/:orderId" element={<OrderDetail />} />
+            </Route>
 
-          {/* Trang không tìm thấy */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </CartProvider>
+            {/* Trang không tìm thấy */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </CartProvider>
+      </CookiesProvider>
     </Router>
   );
 }
