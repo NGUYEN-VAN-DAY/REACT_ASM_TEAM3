@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import useCurrencyFormat from '../../../hooks/useCurrencyFormat'; // Import hook format tiền tệ
+
 function Products() {
   // Các state cho tìm kiếm và sắp xếp
   const [products, setProducts] = useState([]); // Mảng sản phẩm
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState('');
   const navigate = useNavigate();
-  const formatVND = useCurrencyFormat();
+
   // Gọi API để lấy dữ liệu sản phẩm
   useEffect(() => {
     axios.get('http://localhost:3000/products/list')
@@ -92,13 +92,13 @@ function Products() {
               filteredProducts.map((product) => (
                 <div key={product.id} className="col-lg-4 col-md-6 portfolio-item">
                   <img
-                    src={`${product.imageUrl}`}
+                    src={product.imageUrl}
                     alt={product.title}
                     className="img-fluid"
                     onClick={() => navigate(`/productdetail/${product.id}`)} // Sửa lại để đi đến chi tiết sản phẩm
                     style={{ cursor: 'pointer' }}
                   />
-                  <h3>{formatVND(product.price)}</h3>
+                  <h3>{product.price} vnđ</h3>
                   <div className="portfolio-info">
                     <h4>{product.title}</h4>
                     <a

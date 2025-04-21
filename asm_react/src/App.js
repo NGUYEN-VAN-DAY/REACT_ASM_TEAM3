@@ -10,9 +10,10 @@ import Addproduct from "./pages/admin/product/create";
 import ListProduct from "./pages/admin/product";
 import Login from "./components/client/Login";
 import NotFound from "./pages/NotFound";
+import { CartProvider } from "./contexts/CartContext";
 
 import EditProduct from "./pages/admin/product/edit";
-import ListCategory from "./pages/admin/category/index"
+import ListCategory from "./pages/admin/category";
 import AddCate from "./pages/admin/category/create";
 import EditCate from "./pages/admin/category/edit";
 import Home from "./components/client/Home";
@@ -21,22 +22,26 @@ import ProductDetail from "./components/client/Productdetail";
 import Products from "./components/client/Products";
 import Maintenance from "./components/client/Maintenance";
 import ContactPage from "./components/client/Contact";
-import Card from "./components/client/Card";
+import Cart from './pages/client/Cart';
 import Register from "./components/client/Register";
 import Header from "./components/client/layouts/Header";
 import Footer from "./components/client/layouts/Footer";
 import EventsPage from "./components/client/EventsPage";
 import OrderConfirmation from "./components/client/OrderConfirmation";
+import Checkout from './pages/client/Checkout';
+import OrderSuccess from './pages/client/OrderSuccess';
+import MyOrders from './pages/client/MyOrders';
+import Orders from './pages/admin/Orders';
+import OrderDetail from './pages/admin/OrderDetail';
 import "./App.css";
-import AddCategory from "./pages/admin/category/create";
 
 const Layout = ({ children }) => {
   const location = useLocation();
   const isRootPath = location.pathname === "/";
-
+  const user = localStorage.getItem("user") || "";
   return (
     <div className="flex flex-col min-h-screen">
-      {<Header />}
+      {<Header data={ user} />}
       <main className="flex-grow">{children}</main>
       {<Footer />}
     </div>
@@ -47,122 +52,141 @@ function App() {
   const user = "";
   return (
     <Router>
-      <Routes>
-        {/* Routes cho Client */}
-        <Route
-          path="/"
-          element={
+      <CartProvider>
+        <Routes>
+          {/* Routes cho Client */}
+          <Route
+            path="/"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/home"
+            element={
+              <Layout>
+                <Home />
+              </Layout>
+            }
+          />
+          <Route
+            path="/about"
+            element={
+              <Layout>
+                <Introduction />
+              </Layout>
+            }
+          />
+          <Route
+            path="/shop"
+            element={
+              <Layout>
+                <Products />
+              </Layout>
+            }
+          />
+          <Route
+            path="/productdetail/:id"
+            element={
+              <Layout>
+                <ProductDetail />
+              </Layout>
+            }
+          />
+          <Route
+            path="/maintenance"
+            element={
+              <Layout>
+                <Maintenance />
+              </Layout>
+            }
+          />
+          <Route
+            path="/blog"
+            element={
+              <Layout>
+                <EventsPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/contact"
+            element={
+              <Layout>
+                <ContactPage />
+              </Layout>
+            }
+          />
+          <Route
+            path="/cart"
+            element={
+              <Layout>
+                <Cart />
+              </Layout>
+            }
+          />
+          <Route
+            path="/order-confirmation/:orderId"
+            element={
+              <Layout>
+                <OrderConfirmation />
+              </Layout>
+            }
+          />
+          <Route
+            path="/login"
+            element={
+              <Layout>
+                <Login />
+              </Layout>
+            }
+          />
+          <Route
+            path="/register"
+            element={
+              <Layout>
+                <Register />
+              </Layout>
+            }
+          />
+          <Route path="/checkout" element={
             <Layout>
-              <Home />
+              <Checkout />
             </Layout>
-          }
-        />
-        <Route
-          path="/home"
-          element={
+          } />
+          <Route path="/order-success" element={
             <Layout>
-              <Home />
+              <OrderSuccess />
             </Layout>
-          }
-        />
-        <Route
-          path="/about"
-          element={
+          } />
+          <Route path="/my-orders" element={
             <Layout>
-              <Introduction />
+              <MyOrders />
             </Layout>
-          }
-        />
-        <Route
-          path="/shop"
-          element={
-            <Layout>
-              <Products />
-            </Layout>
-          }
-        />
-        <Route
-          path="/productdetail/:id"
-          element={
-            <Layout>
-              <ProductDetail />
-            </Layout>
-          }
-        />
-        <Route
-          path="/maintenance"
-          element={
-            <Layout>
-              <Maintenance />
-            </Layout>
-          }
-        />
-        <Route
-          path="/blog"
-          element={
-            <Layout>
-              <EventsPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/contact"
-          element={
-            <Layout>
-              <ContactPage />
-            </Layout>
-          }
-        />
-        <Route
-          path="/card"
-          element={
-            <Layout>
-              <Card />
-            </Layout>
-          }
-        />
-        <Route
-          path="/order-confirmation/:orderId"
-          element={
-            <Layout>
-              <OrderConfirmation />
-            </Layout>
-          }
-        />
-        <Route
-          path="/login"
-          element={
-            <Layout>
-              <Login />
-            </Layout>
-          }
-        />
-        <Route
-          path="/register"
-          element={
-            <Layout>
-              <Register />
-            </Layout>
-          }
-        />
+          } />
+          {/* Routes cho Admin */}
+          <Route path="/admin/*" element={<AdminLayout />}>
+            <Route path="dashboard" element={<Dashboard />} />
+            <Route path="login" element={<Login />} />
+            <Route path="products" element={<ListProduct />} />
+            <Route path="products/add" element={<Addproduct />} />
+            <Route path="products/edit/:id" element={<EditProduct />} />
 
-        {/* Routes cho Admin */}
-        <Route path="/admin/*" element={<AdminLayout />}>
-          <Route path="dashboard" element={<Dashboard />} />
-          <Route path="login" element={<Login />} />
-          <Route path="products" element={<ListProduct />} />
-          <Route path="products/add" element={<Addproduct />} />
-          <Route path="products/edit/:id" element={<EditProduct />} />
+            {/* Routes cho danh mục */}
+            <Route path="categories" element={<ListCategory />} />
+            <Route path="categories/add" element={<AddCate />} />
+            <Route path="categories/edit/:id" element={<EditCate />} />
 
-          {/* Routes cho danh mục */}
-          <Route path="categories" element={<ListCategory />} />
-          <Route path="categories/add" element={<AddCategory />} />
-          <Route path="categories/edit/:id" element={<EditCate />} />
-        </Route>
+            <Route path="orders" element={<Orders />} />
+            <Route path="orders/:orderId" element={<OrderDetail />} />
+          </Route>
 
-        {/* Trang không tìm thấy */}
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+          {/* Trang không tìm thấy */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </CartProvider>
     </Router>
   );
 }

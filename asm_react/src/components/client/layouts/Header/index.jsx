@@ -4,10 +4,29 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 // import "./style.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap/dist/js/bootstrap.bundle.min";
-
+import axios from "axios";
 import logo from "../../public/assets/images/logo2.png";
 
-const Header = ({ user }) => {
+const Header = (data) => {
+  const user = data.data ? JSON.parse(data.data) : null;
+  console.log(user);
+  
+  const handleLogout = async() => {
+    // Xóa thông tin người dùng và token khỏi localStorage
+    localStorage.removeItem("user");
+    localStorage.removeItem("token");
+
+    const res = await axios.get("http://localhost:3000/users/logout",{
+      withCredentials: true, // Quan trọng để gửi và nhận cookies
+    });
+    console.log(res.data);
+    
+    // xóa ở server
+    // Gọi API để xóa phiên đăng nhập trên server (nếu cần)
+    // Ví dụ: await axios.post('/api/logout');
+    window.location.href = "/";
+  };
+
   return (
     <header id="header" className="header d-flex align-items-center sticky-top">
       <div className="container position-relative d-flex align-items-center">
@@ -42,7 +61,7 @@ const Header = ({ user }) => {
               <Link to="/contact">Liên hệ</Link>
             </li>
             <li>
-              <Link to="/card">Giỏ hàng</Link>
+              <Link to="/cart">Giỏ hàng</Link>
             </li>
           </ul>
           <i className="mobile-nav-toggle d-xl-none bi bi-list"></i>
@@ -72,19 +91,21 @@ const Header = ({ user }) => {
                   <h3>
                     Xin chào, <span className="fs-3">{user.name}!</span>
                   </h3>
-                  <Link to="/logout" className="btn btn-danger text-white me-0">
+                  <button onClick={() => handleLogout()} className="btn btn-danger text-white me-0">
                     Đăng xuất
-                  </Link>
+                  </button>
                 </>
               ) : (
                 <>
                   <h3>Chào mừng bạn đến với website!</h3>
                   
+                  <Link to="/login" className="btn btn-success text-white">
+                              Đăng nhập
+                  </Link>
+                  
                 </>
               )}
-              <Link to="/login" className="btn btn-success text-white">
-                Đăng nhập
-              </Link>
+
             </div>
           </div>
         </div>

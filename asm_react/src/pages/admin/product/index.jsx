@@ -93,7 +93,6 @@ const ListProduct = () => {
                     <th style={{ width: "5%" }}>ID</th>
                     <th style={{ width: "20%" }}>Tên sản phẩm</th>
                     <th style={{ width: "10%" }}>Giá</th>
-                    <th style={{ width: "10%" }}>Giá KM</th>
                     <th style={{ width: "15%" }}>Ảnh</th>
                     <th style={{ width: "10%" }}>Danh mục</th>
                     <th style={{ width: "10%" }}>Trạng thái</th>
@@ -120,10 +119,6 @@ const ListProduct = () => {
                         </td>
                         <td className="align-middle text-end">
                           {parseInt(product.price).toLocaleString("vi-VN")} đ
-                        </td>
-                        <td className="align-middle text-end">
-                          {parseInt(product.salePrice).toLocaleString("vi-VN")}{" "}
-                          đ
                         </td>
                         <td className="align-middle text-center">
                           <img

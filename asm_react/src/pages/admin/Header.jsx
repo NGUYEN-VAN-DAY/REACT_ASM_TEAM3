@@ -58,21 +58,13 @@ const Header = () => {
           ]}
         />
 
-        <DropdownMenu
-          title="Bình Luận"
-          icon="💬"
-          links={[
-            { path: "/admin/comments", label: "Xem Bình Luận", icon: "📜" },
-            { path: "/admin/comments/add", label: "Thêm Bình Luận", icon: "➕" },
-          ]}
-        />
+        
 
         <DropdownMenu
           title="Đơn Hàng"
           icon="📦"
           links={[
             { path: "/admin/orders", label: "Xem Đơn Hàng", icon: "📜" },
-            { path: "/admin/orders/add", label: "Thêm Đơn Hàng", icon: "➕" },
           ]}
         />
 
