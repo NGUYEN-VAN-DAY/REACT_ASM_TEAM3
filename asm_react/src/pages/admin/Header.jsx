@@ -1,6 +1,10 @@
 import { Link } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { useState } from "react";
+import Dashboard from "./Dashboard";
+// import logo from "../../../public/logo";
+import "../../App";
+
 
 const DropdownMenu = ({ title, icon, links }) => {
   const [isOpen, setIsOpen] = useState(false);
@@ -32,7 +36,8 @@ const DropdownMenu = ({ title, icon, links }) => {
 const Header = () => {
   return (
     <div className="bg-dark text-white vh-100 p-3 position-fixed" style={{ width: "250px" }}>
-      <h4 className="text-center py-3 border-bottom">Admin Panel</h4>
+      
+      <h4 className="text-center py-3 border-bottom"><img id="logo"  src="http://localhost:3001/static/media/logo2.d161d90f480659885421.png" alt="Logo"  /></h4>
       <ul className="nav flex-column">
         <li className="nav-item">
           <Link className="nav-link text-white d-flex align-items-center" to="/admin/dashboard">
@@ -89,6 +94,7 @@ const Header = () => {
         </li>
       </ul>
     </div>
+    
   );
 };
 

@@ -205,6 +205,17 @@ h6 {
               0px 4px 6px rgba(0, 0, 0, 0.1);   /* Bóng nhỏ rõ nét hơn */
 
 }
+#logo{
+  max-height: 60px;
+  margin-right: 9px;
+  width: 100px; /* Điều chỉnh kích thước logo */
+  height: 150px;
+  background-color: #ffffff; /* Màu nền logo */
+  border-radius: 10px; /* Tạo góc bo tròn, tùy thuộc vào thiết kế */
+  box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.15), /* Bóng lớn mờ */
+              0px 4px 6px rgba(0, 0, 0, 0.1);   /* Bóng nhỏ rõ nét hơn */
+
+}
 #clients{
   clear: both;
 
