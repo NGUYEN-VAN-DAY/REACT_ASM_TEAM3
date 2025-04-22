@@ -1,8 +1,10 @@
 import { Link } from "react-router-dom";
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import Constants from '../../../Constanst'; // Sửa lại đúng đường dẫn tới file constants
+import Constants from '../../../Constanst'; // Đảm bảo bạn đã sử dụng đúng đường dẫn tới file constants
 import { useCookies } from 'react-cookie';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css'; // Đảm bảo bạn đã import CSS của react-toastify
 
 const Index = () => {
   const [data, setData] = useState([]);
@@ -42,7 +44,7 @@ const Index = () => {
             style={imageStyle}
           />
         </td> */}
-        <td>{value.status === 0 ? "ẩn" : "hiện"}</td>
+        <td>{value.status === 0 ? "Ẩn" : "Hiện"}</td>
         <td>{value.description}</td>
         <td>
           <Link to={`/admin/categories/edit/${value.id}`} className="btn btn-warning me-3">
@@ -57,13 +59,52 @@ const Index = () => {
   };
 
   const deleteCategory = async (props) => {
-    try {
-      const { id } = props; // Lấy id từ props
-      await axios.delete(`${Constants.DOMAIN_API}/categories/${id}`);
-      getData(); // Gọi lại hàm getData để tải lại danh sách
-    } catch (e) {
-      console.log(e);
-    }
+    const { id, name } = props; // Lấy id và name từ props
+    
+    // Hiển thị toast yêu cầu xác nhận
+    toast.warning(
+      <div>
+        <p>Bạn có chắc chắn muốn xóa danh mục "{name}"?</p>
+        <div className="d-flex justify-content-between">
+          <button
+            onClick={async () => {
+              try {
+                // Thực hiện xóa danh mục
+                const res = await axios.delete(`${Constants.DOMAIN_API}/categories/${id}`);
+                if (res.status === 200) {
+                  getData(); // Tải lại danh sách danh mục
+                  toast.success(`Danh mục "${name}" đã được xóa thành công!`);
+                } else {
+                  toast.error(`Lỗi khi xóa danh mục "${name}"!`);
+                }
+              } catch (e) {
+                console.log(e);
+                toast.error('Lỗi khi xóa danh mục!');
+              }
+              // Đợi 2 giây rồi đóng thông báo
+              setTimeout(() => {
+                toast.dismiss(); // Đóng thông báo
+              }, 1500);
+            }}
+            className="btn btn-danger btn-sm"
+          >
+            Xóa
+          </button>
+          <button
+            onClick={() => toast.dismiss()}  // Đóng toast khi người dùng chọn hủy
+            className="btn btn-secondary btn-sm"
+          >
+            Hủy
+          </button>
+        </div>
+      </div>,
+      {
+        autoClose: false, // Không tự động đóng
+        closeOnClick: false, // Không tự động đóng khi nhấn vào
+        hideProgressBar: true, // Ẩn thanh tiến trình
+        position: "top-center",  // Đặt vị trí toast ở trên cùng
+      }
+    );
   };
 
   return (
@@ -80,7 +121,7 @@ const Index = () => {
                 <th>ID</th>
                 <th>Tên</th>
                 {/* <th>Ảnh</th> */}
-                <th>Trang thái</th>
+                <th>Trạng thái</th>
                 <th>Mô tả</th>
                 <th>Thao tác</th>
               </tr>
@@ -91,6 +132,9 @@ const Index = () => {
           </table>
         </div>
       </div>
+
+      {/* Thêm ToastContainer vào đây */}
+      <ToastContainer />
     </>
   );
 };

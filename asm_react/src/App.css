@@ -216,6 +216,7 @@ h6 {
               0px 4px 6px rgba(0, 0, 0, 0.1);   /* Bóng nhỏ rõ nét hơn */
 
 }
+
 #clients{
   clear: both;
 
@@ -2832,7 +2833,69 @@ input{
 .form-group {
   margin-bottom: 20px;
 }
+#btn {
+  background-color: #000000 !important;
+  border: none !important;
+  color: white !important;
+  padding: 8px 16px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
 
+#btn:hover {
+  background-color: #2d2d2d !important;
+  transform: translateY(-1px);
+}
+
+/* Nút số trang */
+#btn_number {
+  background-color: #e0e0e0; /* xám nhạt */
+  color: #000;               /* chữ đen */
+  border: 1px solid #ccc;    /* viền xám */
+  margin: 0 4px;
+  padding: 6px 12px;
+  font-weight: 500;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  outline: none;
+}
+#btn_number:focus {
+  outline: none; /* ✅ chắc chắn không hiện viền khi focus */
+  box-shadow: none; /* ✅ bỏ hiệu ứng bóng xanh */
+}
+#btn_number:hover {
+  background-color: #bdbdbd; /* xám đậm hơn khi hover */
+  color: #000;
+  transform: translateY(-1px);
+  border-color: #aaa;
+}
+
+/* Nút đang được chọn (active) */
+.active-pages {
+  background-color: #424242 !important; /* xám đậm */
+  color: #fff !important;
+ 
+  font-weight: bold;
+  transform: scale(1.05);
+}
+#search:focus {
+  outline: none; /* ✅ chắc chắn không hiện viền khi focus */
+  box-shadow: none; /* ✅ bỏ hiệu ứng bóng xanh */
+}
+#search{
+  background-color: #ffffff;
+  border: 1px solid #838181; /* Đổi màu viền thành đen */
+  border-radius: 3px;
+}
+#filter{
+  background-color: #1bbd36;
+}
+.drow a:focus{
+  outline: none; /* ✅ chắc chắn không hiện viền khi focus */
+  box-shadow: none; /* ✅ bỏ hiệu ứng bóng xanh */
+}
 /* --------------------------------------------------------------- */
 
 

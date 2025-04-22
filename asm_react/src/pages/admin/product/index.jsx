@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";  // Import từ react-toastify
 
 const ListProduct = () => {
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [message, setMessage] = useState({ text: "", type: "" });
-console.log(products);
 
   useEffect(() => {
     fetchProducts();
@@ -31,16 +31,50 @@ console.log(products);
     setTimeout(() => setMessage({ text: "", type: "" }), 3000);
   };
 
-  const handleDelete = async (id) => {
-    if (!window.confirm("Bạn có chắc chắn muốn xóa sản phẩm này?")) return;
+  const handleDelete = (id) => {
+    // Hiển thị thông báo yêu cầu xác nhận xóa với 2 lựa chọn: Xóa và Hủy
+    toast.warning(
+      <div>
+        <p>Bạn có chắc chắn muốn xóa sản phẩm này?</p>
+        <div className="d-flex justify-content-between">
+          <button
+            onClick={() => deleteProduct(id)}
+            className="btn btn-danger btn-sm"
+          >
+            Xóa
+          </button>
+          <button
+            onClick={() => toast.warning.dismiss()}  // Đóng toast khi người dùng chọn hủy
+            className="btn btn-secondary btn-sm"
+          >
+            Hủy
+          </button>
+        </div>
+      </div>,
+      {
+        autoClose: false, // Không tự động đóng
+        closeOnClick: false, // Không tự động đóng khi nhấn vào
+        hideProgressBar: true, // Ẩn thanh tiến trình
+        position: "top-center",  // Đặt vị trí toast ở trên cùng
+      }
+    );
+  };
 
+  const deleteProduct = async (id) => {
     try {
       await axios.delete(`http://localhost:3000/products/${id}`);
       setProducts((prev) => prev.filter((product) => product.id !== id));
-      showMessage("Xóa sản phẩm thành công", "success");
+      toast.success("Xóa sản phẩm thành công"); // Thông báo xóa thành công
+
+      // Đợi 2 giây rồi đóng thông báo yêu cầu xác nhận xóa
+      setTimeout(() => {
+        toast.dismiss();  // Đóng thông báo yêu cầu xác nhận xóa
+      }, 1500);
+
     } catch (error) {
       console.error("Lỗi khi xóa sản phẩm:", error);
-      showMessage("Có lỗi xảy ra khi xóa sản phẩm", "danger");
+      toast.error("Có lỗi xảy ra khi xóa sản phẩm"); // Thông báo lỗi
+      toast.dismiss();  // Đóng thông báo yêu cầu xác nhận xóa
     }
   };
 
@@ -107,7 +141,7 @@ console.log(products);
                             className="img-thumbnail"
                             width="80"
                             height="80"
-                            style={{ objectFit: "cover" ,width:"200PX", height:"150PX"}}
+                            style={{ objectFit: "cover" }}
                             src={product.imageUrl || ""}
                             alt={product.title}
                             onError={(e) => {
@@ -156,6 +190,9 @@ console.log(products);
           )}
         </div>
       </div>
+
+      {/* Đảm bảo ToastContainer có mặt để hiển thị thông báo */}
+      <ToastContainer />
     </div>
   );
 };

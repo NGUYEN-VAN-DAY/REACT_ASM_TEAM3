@@ -40,7 +40,7 @@ export const CartProvider = ({ children }) => {
           id: item.id,
           product_id: item.product_id,
           quantity: item.quantity,
-          price: item.Product.salePrice || item.Product.price,
+          price: item.Product.price || item.Product.price,
           title: item.Product.title,
           images: item.Product.images,
           totalPrice: item.totalPrice
